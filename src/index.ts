@@ -65,7 +65,7 @@ function parseGraphMl(filePath: string): Graph {
 
 interface LookupTableEntry {
     node: GraphNode;
-    shortestDistanceToTargetNode: number;
+    shortestDistanceToStartNode: number;
     previousNode: GraphNode | null;
 }
 
@@ -75,7 +75,7 @@ function initLookupTable(graph: Graph, startNode: GraphNode): LookupTableEntry[]
         const shortestDistance: number = (graphNode === startNode) ? 0 : Infinity;
         lookupTable.push({
             node: graphNode,
-            shortestDistanceToTargetNode: shortestDistance,
+            shortestDistanceToStartNode: shortestDistance,
             previousNode: null
         });
     });
@@ -89,7 +89,7 @@ function findNodeWithSmallestKnownDistance(lookupTable: LookupTableEntry[], unvi
     }
     let smallestTableEntry = filteredLookupTable[0];
     for (let i = 0; i < filteredLookupTable.length; i++) {
-        if (filteredLookupTable[i].shortestDistanceToTargetNode < smallestTableEntry.shortestDistanceToTargetNode) {
+        if (filteredLookupTable[i].shortestDistanceToStartNode < smallestTableEntry.shortestDistanceToStartNode) {
             smallestTableEntry = filteredLookupTable[i];
         }
     }
@@ -106,10 +106,10 @@ function checkNeighboringNodes(lookupTable: LookupTableEntry[], graphNode: Graph
     const nodeTableEntry = getTableEntryforNode(lookupTable, graphNode) as LookupTableEntry;
     graphNode.getEdgesToNodes().forEach(edgeToNode => {
         const adjacentNodeTableEntry = getTableEntryforNode(lookupTable, edgeToNode.targetNode) as LookupTableEntry;
-        const newDistance = nodeTableEntry.shortestDistanceToTargetNode + edgeToNode.weight;
-        if (newDistance < adjacentNodeTableEntry.shortestDistanceToTargetNode) {
+        const newDistance = nodeTableEntry.shortestDistanceToStartNode + edgeToNode.weight;
+        if (newDistance < adjacentNodeTableEntry.shortestDistanceToStartNode) {
             adjacentNodeTableEntry.previousNode = graphNode;
-            adjacentNodeTableEntry.shortestDistanceToTargetNode = newDistance;
+            adjacentNodeTableEntry.shortestDistanceToStartNode = newDistance;
         }
     });
 }
@@ -158,7 +158,7 @@ function findShortestPathBetween(graph: Graph, startNode: GraphNode, targetNode:
     const targetNodeTableEntry = getTableEntryforNode(lookupTable, targetNode) as LookupTableEntry;
     return {
         nodeNames: pathNames.reverse(),
-        shortestDistance: targetNodeTableEntry.shortestDistanceToTargetNode
+        shortestDistance: targetNodeTableEntry.shortestDistanceToStartNode
     };
 }
 
