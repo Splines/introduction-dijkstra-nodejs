@@ -1,0 +1,27 @@
+{
+  "name": "basic-dijkstra-in-typescript",
+  "version": "1.0.0",
+  "description": "This is a basic implementation of the Dijkstra algorithm.",
+  "main": "index.js",
+  "repository": {
+    "url": "https://example.com/your-username/my-new-project",
+    "type": "git"
+  },
+  "author": "Dominic Plein <dominic-plein@gmx.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.0.18",
+    "@types/xmldoc": "^1.1.4",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "dev": "nodemon --watch src/**/*.ts --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "xmldoc": "^1.1.2"
+  }
+}
